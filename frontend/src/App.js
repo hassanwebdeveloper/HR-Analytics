@@ -1,31 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import Plot from 'react-plotly.js';
+import {Pivot, PivotItem, Label, Text} from "@fluentui/react"
+import HCDashboard from './Components/HCDashboard';
 
 function App() {
-  const [getMessage, setGetMessage] = useState({})
+  // const [getMessage, setGetMessage] = useState({});
 
-  useEffect(()=>{
-    axios.get('http://localhost:5000/flask/hello').then(response => {
-      console.log("SUCCESS", response)
-      setGetMessage(response)
-    }).catch(error => {
-      console.log(error)
-    })
-
-  }, [])
+  // useEffect(() => {
+  //   fetch('http://localhost:5000/flask/hello').then(res => res.json()).then(data => {
+  //     setGetMessage(JSON.parse(data));
+  //   });
+  // }, []);
+  // <Plot data={getMessage.data} layout={getMessage.layout}/>
+  const pivistyles = {
+    root:[{
+      display:"inline !important"
+    }]
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>React + Flask Tutorial</p>
-        <div>{getMessage.status === 200 ? 
-          <h3>{getMessage.data.message}</h3>
-          :
-          <h3>LOADING</h3>}</div>
+    <>
+      <header>
+        <Text variant={"xxLarge"}>HR Analytics</Text>
+        <Pivot styles={pivistyles} >
+          <PivotItem headerText='Head Count Analytics'>
+            <HCDashboard />
+          </PivotItem>
+          <PivotItem headerText='Absentees Analytics'>
+            <Label>Predictive Analytics</Label>
+          </PivotItem>
+          <PivotItem headerText='Financial Analytics'>
+            <Label>Prescriptive Analytics</Label>
+          </PivotItem>
+        </Pivot>
       </header>
-    </div>
+    </>
   );
 }
 
